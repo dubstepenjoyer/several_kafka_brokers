@@ -65,10 +65,3 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:29094,EXTERNAL://localhost:9094
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_NUM_PARTITIONS: 3
-
-# volumes:
-#   ./data/zookeeper/log:
-#   ./data/zookeeper/data:
-#   ./data/kafka-1:
-#   ./data/kafka-2:
-#   ./data/kafka-3:
