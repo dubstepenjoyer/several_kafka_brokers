@@ -5,8 +5,9 @@ services:
     image: confluentinc/cp-zookeeper #:5.5.1
     ports:
       - '32181:32181'
-    # volumes:
-    #   - ./data/zookeeper:/var/lib/zookeeper
+    volumes:
+      - ./data/zookeeper/log:/var/lib/zookeeper/log
+      - ./data/zookeeper/data:/var/lib/zookeeper/data
     environment:
       ZOOKEEPER_CLIENT_PORT: 32181
       ZOOKEEPER_TICK_TIME: 2000
@@ -17,8 +18,9 @@ services:
       - '9092:9092'
     depends_on:
       - zookeeper
-    # volumes:
-    #   - ./data/kafka-1:/var/lib/kafka/data
+    volumes:
+      - ./data/kafka-1:/var/lib/kafka/data
+    restart: on-failure
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
@@ -34,8 +36,9 @@ services:
       - '9093:9093'
     depends_on:
       - zookeeper
-    # volumes:
-    #   - ./data/kafka-2:/var/lib/kafka/data
+    volumes:
+      - ./data/kafka-2:/var/lib/kafka/data
+    restart: on-failure
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
@@ -51,8 +54,9 @@ services:
       - '9094:9094'
     depends_on:
       - zookeeper
-    # volumes:
-    #   - ./data/kafka-3:/var/lib/kafka/data
+    volumes:
+      - ./data/kafka-3:/var/lib/kafka/data
+    restart: on-failure
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
@@ -61,3 +65,10 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:29094,EXTERNAL://localhost:9094
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_NUM_PARTITIONS: 3
+
+# volumes:
+#   ./data/zookeeper/log:
+#   ./data/zookeeper/data:
+#   ./data/kafka-1:
+#   ./data/kafka-2:
+#   ./data/kafka-3:
