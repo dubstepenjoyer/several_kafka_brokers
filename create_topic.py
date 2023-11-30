@@ -6,13 +6,15 @@ admin = KafkaAdminClient(
     client_id='admin'
 )
 
-topic_list = [
-    NewTopic(name='cluster-logs', num_partitions=3, replication_factor=3),
-    NewTopic(name='callbacks', num_partitions=3, replication_factor=3),
-    NewTopic(name='stream-links', num_partitions=3, replication_factor=3),
-    NewTopic(name='create-process', num_partitions=3, replication_factor=3),
-    NewTopic(name='process-changes', num_partitions=3, replication_factor=3),
-    NewTopic(name='test', num_partitions=3, replication_factor=3)
-    ]
+topics_names = ['cluster-logs', 'callbacks', 'stream-links', 'create-process', 'process-changes', 'test']
 
-admin.create_topics(new_topics=topic_list)
+topics_to_create = []
+
+admin_response = admin.list_topics()
+
+for topic_name in topics_names:
+    if topic_name not in admin_response:
+        topics_to_create.append(NewTopic(name=topic_name, num_partitions=3, replication_factor=3))
+
+if topics_to_create:
+    admin.create_topics(new_topics=topics_to_create)
