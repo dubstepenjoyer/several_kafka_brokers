@@ -1,15 +1,11 @@
 #!/bin/bash
 
-if [[ -v IP ]]; then
-    echo "IP already set"
-else
-    python3 preparation.py
-fi
+python3 preparation.py
 
-docker-compose up -d
+sudo docker-compose up -d
 
-echo "Wait for 10 seconds till Kafka cluster will start"  
+echo "Wait for 30 seconds till Kafka cluster will start"  
   
-sleep 10s 
+sleep 30
 
 python3 create_topic.py
